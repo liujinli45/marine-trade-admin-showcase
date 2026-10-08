@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 700" width="1120" height="700" role="img" aria-label="系统架构图">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#71717a"/>
+    </marker>
+    <style>
+      .h1 { font: 600 21px -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; fill: #18181b; }
+      .cap { font: 400 13px -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; fill: #71717a; }
+      .bt { font: 600 15px -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; fill: #18181b; }
+      .bs { font: 400 12.5px -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; fill: #52525b; }
+      .mono { font: 500 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #4f46e5; }
+      .box { fill: #ffffff; stroke: #e4e4e7; stroke-width: 1.5; rx: 10; }
+      .box-accent { fill: #ffffff; stroke: #4f46e5; stroke-width: 1.8; rx: 10; }
+      .panel { fill: #fafafa; stroke: #e4e4e7; stroke-width: 1.5; rx: 12; }
+      .line { stroke: #71717a; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1120" height="700" fill="#ffffff"/>
+
+  <text class="h1" x="40" y="50">系统架构</text>
+  <text class="cap" x="40" y="72">单机部署：前端 SPA + 业务 API + MySQL，经统一网关暴露在同一域名下</text>
+
+  <!-- 浏览器 -->
+  <rect class="box" x="360" y="100" width="400" height="62"/>
+  <text class="bt" x="380" y="127">浏览器 · 管理后台 SPA</text>
+  <text class="bs" x="380" y="147">Vue 3 · Vite · Element Plus · ECharts · vue-i18n</text>
+
+  <path class="line" d="M 560 162 L 560 196"/>
+
+  <!-- 网关 -->
+  <rect class="box-accent" x="330" y="200" width="460" height="86"/>
+  <text class="bt" x="350" y="227">统一网关</text>
+  <text class="bs" x="350" y="249">静态资源托管 · 反向代理 · 安全响应头</text>
+  <text class="mono" x="350" y="270">/health/live（存活）  /health/ready（依赖就绪）</text>
+
+  <!-- 三条分支 -->
+  <path class="line" d="M 420 286 L 200 330"/>
+  <path class="line" d="M 560 286 L 560 330"/>
+  <path class="line" d="M 700 286 L 920 330"/>
+
+  <rect class="box" x="60" y="336" width="290" height="86"/>
+  <text class="bt" x="80" y="363">业务 API</text>
+  <text class="mono" x="80" y="385">/api/*</text>
+  <text class="bs" x="80" y="405">Express · JWT · 连接池</text>
+
+  <rect class="box" x="415" y="336" width="290" height="86"/>
+  <text class="bt" x="435" y="363">受控附件</text>
+  <text class="mono" x="435" y="385">/uploads/*</text>
+  <text class="bs" x="435" y="405">按数据库引用校验后可访问</text>
+
+  <rect class="box" x="770" y="336" width="290" height="86"/>
+  <text class="bt" x="790" y="363">前端构建产物</text>
+  <text class="mono" x="790" y="385">/</text>
+  <text class="bs" x="790" y="405">静态资源，带缓存策略</text>
+
+  <!-- MySQL -->
+  <path class="line" d="M 205 422 L 205 456"/>
+  <rect class="box" x="60" y="462" width="290" height="74"/>
+  <text class="bt" x="80" y="489">MySQL</text>
+  <text class="bs" x="80" y="511">25 张表 · 19 次迁移 · 连接池</text>
+  <text class="bs" x="80" y="529">仅内网可达，不对外发布端口</text>
+
+  <!-- API 分层面板 -->
+  <rect class="panel" x="415" y="456" width="645" height="212"/>
+  <text class="bt" x="440" y="485">业务 API 内部分层</text>
+
+  <rect class="box" x="440" y="500" width="595" height="44"/>
+  <text class="bs" x="458" y="519">routes/*    HTTP 编排：参数校验 → 事务边界 → 响应组装</text>
+  <text class="bs" x="458" y="536">只做编排，不写业务规则</text>
+
+  <rect class="box" x="440" y="552" width="595" height="44"/>
+  <text class="bs" x="458" y="571">middleware/*    会话（JWT + token_version）→ 模块权限 → 资源访问守卫</text>
+  <text class="bs" x="458" y="588">每层都能独立拒绝，撤销即时生效</text>
+
+  <rect class="box" x="440" y="604" width="595" height="44"/>
+  <text class="bs" x="458" y="623">utils/*    纯业务规则：报价计算 · 金额校验 · 团队范围 · 分页 · 幂等回执</text>
+  <text class="bs" x="458" y="640">无数据库依赖，可被单测直接覆盖，前端与后端复用同一份</text>
+</svg>
